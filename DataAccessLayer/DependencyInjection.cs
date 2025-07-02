@@ -17,7 +17,7 @@ public static class DependencyInjection
           .Replace("$MONGO_PORT", Environment.GetEnvironmentVariable("MONGODB_PORT"));
 
         services.AddSingleton<IMongoClient>(new MongoClient(connectionString));
-
+        //services.AddSingleton<IMongoClient>(new MongoClient("mongodb://localhost:27017"));
         services.AddScoped(provider =>
         {
             IMongoClient client = provider.GetRequiredService<IMongoClient>();

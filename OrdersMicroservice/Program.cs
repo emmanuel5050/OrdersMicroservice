@@ -1,25 +1,53 @@
+using BusinessLogicLayer;
+using DataAccessLayer;
+using FluentValidation.AspNetCore;
+using OrdersMicroservice.Middleware;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+//Add DAL and BLL services
+builder.Services.AddDataAccessLayer(builder.Configuration);
+builder.Services.AddBusinessLogicLayer(builder.Configuration);
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+//FluentValidations
+builder.Services.AddFluentValidationAutoValidation();
+
+//Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//Cors
+builder.Services.AddCors(options => {
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins("http://localhost:4200")
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+    });
+});
+
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseExceptionHandlingMiddleware();
+app.UseRouting();
 
+//Cors
+app.UseCors();
+
+//Swagger
+app.UseSwagger();
+app.UseSwaggerUI();
+
+//Auth
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
+//Endpoints
 app.MapControllers();
+
 
 app.Run();

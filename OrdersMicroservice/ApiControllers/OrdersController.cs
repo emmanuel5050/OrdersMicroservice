@@ -130,4 +130,23 @@ public class OrdersController : ControllerBase
 
         return Ok(isDeleted);
     }
+
+    //DELETE api/Orders/{orderID}
+    //[HttpDelete("{orderID}")]
+    //public async Task<IActionResult> Delete(Guid orderID)
+    //{
+    //    if (orderID == Guid.Empty)
+    //    {
+    //        return BadRequest("Invalid order ID");
+    //    }
+
+    //    bool isDeleted = await _ordersService.DeleteOrder(orderID);
+
+    //    if (!isDeleted)
+    //    {
+    //        return Problem("Error in deleting order");
+    //    }
+
+    //    return Ok(isDeleted);
+    //}
 }

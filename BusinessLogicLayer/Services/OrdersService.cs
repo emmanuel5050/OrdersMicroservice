@@ -63,7 +63,7 @@ public class OrdersService : IOrdersService
     }
 
         //TO DO: Add logic for checking if UserID exists in Users microservice
-        var user = _usersMicroserviceClient.GetUserByUserID(orderAddRequest.UserID);
+        var user = await _usersMicroserviceClient.GetUserByUserID(orderAddRequest.UserID);
         if (user == null)
         {
             throw new ArgumentException("Invalid User ID");
